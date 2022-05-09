@@ -25,9 +25,9 @@ class Fan_Controller
     public:
         //init function
          void Init();
-         void MaintainTemprature();
-         float GetSubsystemMaxTemprature();
-         void SetSubsystemMaxTemprature(uint8_t valuePWM);
+         void MaintainTemperature();
+         float GetSubsystemMaxTemperature();
+         void SetSubsystemMaxTemperature(uint8_t valuePWM);
          void Setkeepalive(bool state);
          Fan_Controller(){
              

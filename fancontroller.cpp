@@ -79,63 +79,63 @@ void Fan_Controller::Init()
 }
 
 /*
-Function Name: MaintainTemprature
+Function Name: MaintainTemperature
 Arguments: None
 Output: void
 Summary:
         functions will loop thorugh follwing
         loop(while told to keep alive)
-            get maximum subsystem temprature
+            get maximum subsystem temperature
             calcualte PWM linear value
             set pam value
             repeat        
 */
-void Fan_Controller::MaintainTemprature()
+void Fan_Controller::MaintainTemperature()
 {
     float maxSubsystemTemperature = 0;
     uint8_t valuePWM = 0;
     while (keepRunning)
     {
         cout << "--------------------------------------------------------------------" << endl;
-        maxSubsystemTemperature = GetSubsystemMaxTemprature();
+        maxSubsystemTemperature = GetSubsystemMaxTemperature();
         cout << "Max Subsystem Temperature: " << maxSubsystemTemperature << endl;
         valuePWM = getPWMValue(maxSubsystemTemperature);
         cout << "PWM Value : ";
         cout << (int)valuePWM << endl;
         cout << "Setting PWM value to all PWM registers" << endl;
-        SetSubsystemMaxTemprature(valuePWM);
+        SetSubsystemMaxTemperature(valuePWM);
         this_thread::sleep_for(std::chrono::milliseconds(POLLING_FREQUENCY_MILISECONDS));
     }
 }
 
-float Fan_Controller::GetSubsystemMaxTemprature()
+float Fan_Controller::GetSubsystemMaxTemperature()
 {
     int subsystemCount = 0;
-    float maxTemprature = 0;
+    float maxTemperature = 0;
     float subsystemtemperature = 0;
 
     while (robot.subsystemNumber[subsystemCount].subsystemName != "(NULL)")
     {
-        cout << "Get Temprature of Subsystem Name: " << robot.subsystemNumber[subsystemCount].subsystemName << " ";
+        cout << "Get Temperature of Subsystem Name: " << robot.subsystemNumber[subsystemCount].subsystemName << " ";
         subsystemtemperature = getTemperature();
         cout << subsystemtemperature << " C" << endl;
-        if (subsystemtemperature > maxTemprature)
+        if (subsystemtemperature > maxTemperature)
         {
-            maxTemprature = subsystemtemperature;
+            maxTemperature = subsystemtemperature;
         }
         subsystemCount++;
     }
-    return maxTemprature;
+    return maxTemperature;
 }
 
 /*
-Function Name: SetSubsystemMaxTemprature
+Function Name: SetSubsystemMaxTemperature
 Arguments: uint8_t pwm value
 Output: void
 Summary:
         Sets PWM value to all Fan's in subsystem's
 */
-void Fan_Controller::SetSubsystemMaxTemprature(uint8_t valuePWM)
+void Fan_Controller::SetSubsystemMaxTemperature(uint8_t valuePWM)
 {
     int subsystemCount = 0;
     int fanCount = 0;
@@ -173,13 +173,13 @@ void Fan_Controller::Setkeepalive(bool state)
 
 /*
 Function Name: getPWMValue
-Arguments:float temprature
+Arguments:float temperature
 Output: uint8_t pwm value
 Summary:
        finds the linear corelation for 8 bit PWM value
       2d Graph : x-axis PWM Value , Y-axis Temperature Values
       (x0,y0)= Starting point on 2d graph , (x1,y1)= End point on 2d graph
-      (X,Y) = Point at with we want calcualte PWM Value for Given Temprature
+      (X,Y) = Point at with we want calcualte PWM Value for Given Temperature
       Linear Interpoaltion formula Y = [y0(x1-X)+y1(X-x0)]/(x1-x0)
 */
 uint8_t getPWMValue(float temperature)
@@ -212,7 +212,7 @@ Function Name: getTemperature
 Arguments: None
 Output: float
 Summary:
-       frandom number generator as mock temprature sensor
+       frandom number generator as mock temperature sensor
 */
 float getTemperature()
 {
